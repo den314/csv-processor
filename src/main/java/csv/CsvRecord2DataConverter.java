@@ -7,17 +7,15 @@ import java.util.List;
 
 public class CsvRecord2DataConverter {
 
-    public static List<Data> convert(List<CSVRecord> csvRecords) {
-        List<Data> converted = new ArrayList<>();
+    public static List<CSVData> convert(List<CSVRecord> csvRecords) {
+        List<CSVData> converted = new ArrayList<>();
+        List<String> values = new ArrayList<>();
         csvRecords.forEach(record -> {
-
-            Data data = new Data.Builder().withId(Integer.parseInt(record.get(1)))
-                    .withSubId(Integer.parseInt(record.get(3)))
-                    .withName(record.get(0))
-                    .withSurname(record.get(2))
-                    .build();
-
-            converted.add(data);
+            for (String v : record) {
+                values.add(v);
+            }
+            converted.add(new Data(new ArrayList<>(values)));
+            values.clear();
         });
         return converted;
     }
